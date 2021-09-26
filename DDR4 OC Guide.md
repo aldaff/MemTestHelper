@@ -491,6 +491,8 @@ The default value is fixed 1.100V and AMD recommends keeping it at that level. I
    * For all other ICs, I would recommend doing a binary search to find the lowest stable tRFC.  
    For example, say your tRFC is 630. The next tRFC you should try is half of that (315). If that is unstable, you know that your lowest tRFC is somewhere between 315 and 630, so you try the midpoint (`(315 + 630) / 2 = 472.5, round down to 472`). If that is stable, you know that your lowest tRFC is between 315 and 472, so you try the midpoint and so on.
    * [tRFC table by Reous](https://www.hardwareluxx.de/community/threads/hynix-8gbit-ddr4-cjr-c-die-h5an8g8ncjr-djr-2020-update.1206340/)(bottom of page).
+   ![image](https://user-images.githubusercontent.com/33010926/134802256-c12f8d94-4d02-4139-b99c-744ced65eaaf.png)
+
 3. Here are my suggestions for the rest of the secondaries:
 
    | Timing | Safe | Tight | Extreme |
