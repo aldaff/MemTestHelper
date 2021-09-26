@@ -88,10 +88,9 @@ You should always test with a variety of stress tests to ensure your overclock i
     
 ## Timings Software
 * To view timings in Windows: 
-  * Intel: 
-    * Z370(?)/Z390: [Asrock Timing Configurator v4.0.4](https://www.asrock.com/MB/Intel/X299%20OC%20Formula/index.asp#Download) (don't need an Asrock motherboard).
-    * EVGA motherboards and Z170/Z270(?)/Z490: [Asrock Timing Configurator v4.0.3](https://www.asrock.com/mb/Intel/Z170%20OC%20Formula/#Download).
-    * For Rocket Lake: [ASRock Timing Configurator v4.0.10](http://picx.xfastest.com/nickshih/asrock/AsrTCSetup(v4.0.10).rar)
+    * ASRock Timing Configurator (latest - v4.0.9)(https://download.asrock.com/Utility/Formula/TimingConfigurator(v4.0.9).zip)  
+    * Z370(?)/Z390: [Asrock Timing Configurator v4.0.4](https://download.asrock.com/Utility/Formula/TimingConfigurator(v4.0.4).zip) (don't need an Asrock motherboard).
+    * EVGA motherboards and Z170/Z270(?)/Z490: [Asrock Timing Configurator v4.0.3](https://download.asrock.com/Utility/Formula/TimingConfigurator(v4.0.3).zip).
     
 ## Benchmarks
 * [AIDA64](https://www.aida64.com/downloads) - free 30 day trial. We'll be using the cache and memory benchmark (found under tools) to see how our memory is performing. You can right click the start benchmark button and run memory tests only to skip the cache tests.
@@ -145,8 +144,10 @@ You should always test with a variety of stress tests to ensure your overclock i
 * [Dual rank 8Gb Samsung B-die](https://i.imgur.com/Nqn8s76.jpg).
 
 ### Label on Sticks
-
 Sometimes the Thaiphoon report won't tell you the IC or it may misidentify the IC. To confirm/deny this, you can check the label on the sticks. Currently, only Corsair, G.Skill and Kingston have a label to identify the IC.
+
+### B-Die Finder
+You can check if your kit is Samsung B-Die [here](https://benzhaomin.github.io/bdiefinder/)
 
 #### Corsair Version Number
 * Corsair has a 3 digit version number on the label on the sticks which indicate what ICs are on the stick.
