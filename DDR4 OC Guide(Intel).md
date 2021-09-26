@@ -382,7 +382,7 @@ As far as I know, tCL, tRCD, tRP and possibly tRFC can (or can not) see voltage 
         It is possible to hit half of the theoretical maximum write bandwidth. See [here](https://redd.it/cgc9bh).
       * Percentage of theoretically max bandwidth is inversely proportional to most memory timings. Generally speaking, as RAM timings are tightened, this value will increase.
 
-1. I would recommend to tighten some of the secondary timings first, as they can speed up memory testing.  
+1. I would recommend to tighten some of the secondary timings first, as they can speed up memory testing. Secondary timings affect latency and bandwidth.
    My suggestions:
    
    | Timing | Safe | Tight | Extreme |
@@ -430,7 +430,7 @@ Source: https://www.hardwareluxx.de/community/threads/hynix-8gbit-ddr4-cjr-c-die
    * <sup>1</sup>Some motherboards don't play nice with odd tCWL. For example, I'm stable at 4000 15-19-19 tCWL 14, yet tCWL 15 doesn't even POST. Another user has had similar experiences. Some motherboards may seem fine but have issues with it at higher frequencies (Asus). Manually setting tCWL equal to tCL if tCL is even or one below if tCL is uneven should alleviate this (eg. if tCL = 18 try tCWL = 18 or 16, if tCL = 17 try tCWL = 16).
    * The extreme preset is not the minimum floor in this case. tRTP can go as low as 5 (6 with Gear Down Mode on), while tWTRS/L can go as low as 1/6. Some boards are fine doing tCWL as low as tCL - 6. Keep in mind that this *will* increase the load on your memory controller.
    
-4. Now for the tertiaries:        
+4. Now for the tertiaries (affect bandwidth only):       
     * If you're on Intel, tune the tertiaries one group at a time.  
       My suggestions:
       
@@ -447,12 +447,11 @@ Source: https://www.hardwareluxx.de/community/threads/hynix-8gbit-ddr4-cjr-c-die
          * tRDRD_dr/dd can be lowered a step further to 5 for a large bump in read bandwidth.
          * tWRWR_sg 6 can cause write bandwidth regression over tWRWR_sg 7, despite being stable.
     
-5. Drop tCL by 1 until it's unstable.
-   * On AMD, if GDM is enabled drop tCL by 2.   
+5. Now for the Primaries (tCL-tRCD-tRP-tRAS).
+  * Drop tCL by 1 until it's unstable.
+  * Note: Primary timings affect both latency and bandwidth
  
-6. On Intel, drop tRCD and tRP by 1 until unstable.  
-
-   On AMD, drop tRCD by 1 until unstable. Repeat with tRP.
+6. Drop tRCD and tRP (sometimes combined as tRCDTRP) by 1 until unstable.  
    * Note: More IMC voltage may be necessary to stabilise tighter tRCD.
    
 7. Set `tRAS = tRCD(RD) + tRTP`. Increase if unstable.
@@ -479,8 +478,7 @@ Source: https://www.hardwareluxx.de/community/threads/hynix-8gbit-ddr4-cjr-c-die
    * It's typically not a good idea to increase tREFI too much as ambient temperature changes (e.g. winter to summer) can be enough to cause instability.
    * Keep in mind that running max tREFI can corrupt files so tread with caution.
 
-10. Finally onto command rate.
-   
+10. Finally onto command rate.   
     Intel:
     * If below DDR4-4400, try setting CR to 1T. If that doesn't work, leave CR on 2T.
     * On Asus Maximus boards enabling Trace Centering can help greatly with pushing CR 1T to higher frequencies.
