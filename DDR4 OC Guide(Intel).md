@@ -352,7 +352,7 @@ As far as I know, tCL, tRCD, tRP and possibly tRFC can (or can not) see voltage 
    * Set tCCDL to 8. Asus UEFIs don't expose this timing.
    
 2. Loosen primary timings to 18-22-22-42 and set tCWL to 18.
-3. Increase DRAM voltage to 1.45v if it is safe for your IC (1.5v daily is considered safe for Samsung B-Die - assuming temps are <50 degrees. A dedicated fan on the RAM is recommended)
+3. Increase DRAM voltage to 1.45-1.6v if it is safe for your IC (See [Maximum Recommended Daily Voltage]((#maximum-recommended-daily-voltage)))
 5. Follow steps 4-7 from [Finding a Baseline](#finding-a-baseline).
 6. Proceed to [Tightening Timings](#tightening-timings).
    
@@ -421,15 +421,14 @@ Source: https://www.hardwareluxx.de/community/threads/hynix-8gbit-ddr4-cjr-c-die
 
    | Timing | Safe | Tight | Extreme |
    | :----: | :--: | :---: | :-----: |
-   | tWTRS tWTRL | 4 12 | 4 10 | 4 8 |
+   | tWTR_S, tWTR_L | 4, 12 | 4, 10 | 4, 8 |
    | tRTP | 12 | 10 | 8 |
    | tCWL<sup>1</sup> | tCL | tCL - 1 | tCL - 2 |
    * tCWL is also known as tWL (ASUS)
-   * On Intel, tWTRS/L should be left on auto and controlled with tWRRD_dg/sg respectively. Dropping tWRRD_dg by 1 will drop tWTRS by 1. Likewise with tWRRD_sg. Once they're as low as you can go, manually set tWTRS/L.
-   * On Intel, changing tCWL will affect tWRRD_dg/sg and thus tWTR_S/L. If you lower tCWL by 1 you need to lower tWRRD_dg/sg by 1 to keep the same tWTR values. Note that this might also affect tWR per the relationship described earlier.
+   * On Intel, tWTR_S/L should be left on auto and controlled with tWRRD_dg/sg respectively. Dropping tWRRD_dg by 1 will drop tWTRS by 1. Likewise with tWRRD_sg. Once they're as low as you can go, manually set tWTR_S/L.
+   * On Intel, changing tCWL will affect tWRRD_dg/sg and thus tWTR_S/L. If you lower tCWL by 1 you need to lower tWRRD_dg/sg by 1 to keep the same tWTR values. Note that this might also affect tWR per the relationship (tWR = tWRPRE - tCWL - 4) described earlier.
    * <sup>1</sup>Some motherboards don't play nice with odd tCWL. For example, I'm stable at 4000 15-19-19 tCWL 14, yet tCWL 15 doesn't even POST. Another user has had similar experiences. Some motherboards may seem fine but have issues with it at higher frequencies (Asus). Manually setting tCWL equal to tCL if tCL is even or one below if tCL is uneven should alleviate this (eg. if tCL = 18 try tCWL = 18 or 16, if tCL = 17 try tCWL = 16).
    * The extreme preset is not the minimum floor in this case. tRTP can go as low as 5 (6 with Gear Down Mode on), while tWTRS/L can go as low as 1/6. Some boards are fine doing tCWL as low as tCL - 6. Keep in mind that this *will* increase the load on your memory controller.
-   * On AMD, tCWL can often be set to tCL - 2 but is known to require higher tWRRD.
    
 4. Now for the tertiaries:        
     * If you're on Intel, tune the tertiaries one group at a time.  
