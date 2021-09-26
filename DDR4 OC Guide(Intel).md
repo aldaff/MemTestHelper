@@ -352,7 +352,7 @@ As far as I know, tCL, tRCD, tRP and possibly tRFC can (or can not) see voltage 
    * Set tCCDL to 8. Asus UEFIs don't expose this timing.
    
 2. Loosen primary timings to 18-22-22-42 and set tCWL to 18.
-3. Increase DRAM voltage to 1.45v if it is safe for your IC.
+3. Increase DRAM voltage to 1.45v if it is safe for your IC (1.5v daily is considered safe for Samsung B-Die - assuming temps are <50 degrees. A dedicated fan on the RAM is recommended)
 5. Follow steps 4-7 from [Finding a Baseline](#finding-a-baseline).
 6. Proceed to [Tightening Timings](#tightening-timings).
    
