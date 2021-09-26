@@ -13,6 +13,7 @@
 3. [Expectations/Limitations](#expectationslimitations)
    1. [Motherboard](#motherboard)
    2. [ICs](#integrated-circuits-ics)
+      0. [Samsung B-Die Finder](#b-die-finder)
       1. [Thaiphoon Report](#thaiphoon-report)
       2. [Label on Sticks](#label-on-sticks)
       3. [A Note on Logical Ranks and Density](#a-note-on-logical-ranks-and-density)
@@ -134,6 +135,9 @@ You should always test with a variety of stress tests to ensure your overclock i
 ## Integrated Circuits (ICs)
 * Knowing what ICs (sometimes referred to as "dies") are in your RAM will give you an idea of what to expect. Even if you don't know them you can still overclock your RAM.
 
+### B-Die Finder
+You can check if your kit is Samsung B-Die [here](https://benzhaomin.github.io/bdiefinder/)
+
 ### Thaiphoon Report
 * Note: Thaiphoon is known to guess ICs so it shouldn't be fully trusted. It's highly recommended to check the label on the sticks if possible.
   * See [here](https://www.reddit.com/r/overclocking/comments/ig9d76/thaiphoon_burner_cluelessly_guessing_memory_ics/) for more info.
@@ -145,9 +149,6 @@ You should always test with a variety of stress tests to ensure your overclock i
 
 ### Label on Sticks
 Sometimes the Thaiphoon report won't tell you the IC or it may misidentify the IC. To confirm/deny this, you can check the label on the sticks. Currently, only Corsair, G.Skill and Kingston have a label to identify the IC.
-
-### B-Die Finder
-You can check if your kit is Samsung B-Die [here](https://benzhaomin.github.io/bdiefinder/)
 
 #### Corsair Version Number
 * Corsair has a 3 digit version number on the label on the sticks which indicate what ICs are on the stick.
