@@ -24,14 +24,12 @@
       9. [Temperatures and Its Effect on Stability](#temperatures-and-its-effect-on-stability)
    3. [Integrated Memory Controller (IMC)](#integrated-memory-controller-imc)
       1. [Intel - LGA1151](#intel---lga1151)
-      2. [AMD - AM4](#amd---am4)
 4. [Overclocking](#overclocking)
    1. [Finding a Baseline](#finding-a-baseline)
    2. [Trying Higher Frequencies](#trying-higher-frequencies)
    3. [Tightening Timings](#tightening-timings)
    4. [Miscellaneous Tips](#miscellaneous-tips)
       1. [Intel](#intel)
-      2. [AMD](#amd)
 5. [Useful Links](#useful-links)
    1. [Benchmarks](#benchmarks-1)
    2. [Information](#information)
@@ -94,8 +92,6 @@ You should always test with a variety of stress tests to ensure your overclock i
     * Z370(?)/Z390: [Asrock Timing Configurator v4.0.4](https://www.asrock.com/MB/Intel/X299%20OC%20Formula/index.asp#Download) (don't need an Asrock motherboard).
     * EVGA motherboards and Z170/Z270(?)/Z490: [Asrock Timing Configurator v4.0.3](https://www.asrock.com/mb/Intel/Z170%20OC%20Formula/#Download).
     * For Rocket Lake: [ASRock Timing Configurator v4.0.10](http://picx.xfastest.com/nickshih/asrock/AsrTCSetup(v4.0.10).rar)
-  * AMD: 
-    * [ZenTimings](https://zentimings.protonrom.com/).
     
 ## Benchmarks
 * [AIDA64](https://www.aida64.com/downloads) - free 30 day trial. We'll be using the cache and memory benchmark (found under tools) to see how our memory is performing. You can right click the start benchmark button and run memory tests only to skip the cache tests.
@@ -119,7 +115,6 @@ You should always test with a variety of stress tests to ensure your overclock i
 
 ## Primary, Secondary and Tertiary Timings
 * [Intel](https://i.imgur.com/hcKDkCc.png)
-* [AMD](https://i.imgur.com/Ie4LVtI.png)
 * RAM timings are split into 3 categories: primary, secondary and tertiary. These are indicated by 'P', 'S', and 'T' respectively.
   * Primary and secondary timings affect latency and bandwidth.
   * Tertiary timings affect bandwidth.
@@ -304,70 +299,7 @@ As far as I know, tCL, tRCD, tRP and possibly tRFC can (or can not) see voltage 
    * Expected memory latency range for Samsung B-Die: 35ns - 45ns.
    * Overall, latency varies between generations due to a difference in die size (ringbus). As a result, a 9900K will have slightly lower latency than a 10700K at the same settings since the 10700K has the same die as a 10900K.
    * Latency is affected by the RTLs and IOLs. Generally speaking, higher quality boards and overclocking oriented boards will be more direct in their routing of the memory traces and will likely have lower RTLs and IOLs. On some motherboards, changing RTLs and IOLs have no effect.
-  
-### AMD - AM4
-Some terminology:
-* MCLK: Real memory clock (half of the effective RAM speed). For example, for DDR4-3200 the MCLK is 1600MHz.
-* FCLK: Infinity Fabric clock.
-* UCLK: Unified memory controller clock. Half of MCLK when MCLK and FCLK are not equal (desynchronised, 2:1 mode).
-* On Zen and Zen+, MCLK == FCLK == UCLK. However on Zen2 and Zen3, you can specify FCLK. If MCLK is 1600MHz (DDR4-3200) and you set FCLK to 1600MHz, UCLK will also be 1600MHz unless you set MCLK:UCLK ratio to 2:1 (also known as UCLK DIV mode, etc.). However, if you set FCLK to 1800MHz, UCLK will run at 800MHz (desynchronised).
-
-* Ryzen 1000 and 2000's IMC can be a bit finnicky when overclocking and can't hit as high frequencies as Intel can. Ryzen 3000 and 5000's IMCs are much better and are more or less on par with Intel's newer Skylake based CPUs ie. 9th gen and 10th gen.
-* SOC voltage is the voltage to the IMC and like with Intel, it's not recommended to leave it on auto. Typical ranges for this value range around 1.00V and 1.10V. Higher values are generally acceptable, and may be necessary in stabilizing higher capacity memory and may aid in attaining FCLK stability.
-* By contrast, when SOC voltage is set too high, memory instability can occur. This negative scaling typically occurs between 1.15V and 1.25V on most Ryzen CPUs.
-  > There are clear differences in how the memory controller behaves on the different CPU specimens. The majority of the CPUs will do DDR4-3466 or higher at 1.050V SoC voltage, however the difference lies in how the different specimens react to the voltage. Some of the specimens seem scale with the increased SoC voltage, while the others simply refuse to scale at all or in some cases even illustrate negative scaling. All of the tested samples illustrated negative scaling (i.e. more errors or failures to train) when higher than 1.150V SoC was used. In all cases the maximum memory frequency was achieved at =< 1.100V SoC voltage.  
-  [~ The Stilt](https://forums.anandtech.com/threads/ryzen-strictly-technical.2500572/page-72#post-39391302)
-* On Ryzen 3000, there's also CLDO_VDDG (commonly abbreviated to VDDG, not to be confused with CLDO_VDD**P**), which is the voltage to the Infinity Fabric. SOC voltage should be at least 40mV above CLDO_VDDG as CLDO_VDDG is derived from SOC voltage.
-  > Most cLDO voltages are regulated from the two main power rails of the CPU. In case of cLDO_VDDG and cLDO_VDDP, they are regulated from the VDDCR_SoC plane.
-Because of this, there are couple rules. For example, if you set the VDDG to 1.100V, while your actual SoC voltage under load is 1.05V the VDDG will stay roughly at 1.01V max.
-Likewise if you have VDDG set to 1.100V and start increasing the SoC voltage, your VDDG will raise as well. I don't have the exact figure, but you can assume that the minimum drop-out voltage (Vin-Vout) is around 40mV.
-Meaning you ACTUAL SoC voltage has to be at least by this much higher, than the requested VDDG for it to take effect as it is requested.  
-Adjusting the SoC voltage alone, unlike on previous gen. parts doesn't do much if anything at all.
-The default value is fixed 1.100V and AMD recommends keeping it at that level. Increasing the VDDG helps with the fabric overclocking in certain scenarios, but not always.
-1800MHz FCLK should be doable at the default 0.9500V value and for pushing the limits it might be beneficial to increase it to =< 1.05V (1.100 - 1.125V SoC, depending on the load-line).  
-  [~ The Stilt](https://www.overclock.net/forum/28031966-post35.html)  
-  * On AGESA 1.0.0.4 or newer VDDG is separated into VDDG IOD and VDDG CCD for the I/O die and the chiplets parts, respectively.
-
-* Below are the expected memory frequency ranges for 2 single rank DIMMs, provided your motherboard and ICs are capable:
-
-  | Ryzen | Expected Effective Speed (MT/s) |
-  | :---: | :----------------------: |
-  | 1000 | 3000 - 3600 |
-  | 2000 | 3400 - 3800<sup>1</sup> |
-  | 3000 | 3600 - 3800 (1:1 MCLK:FCLK) <br/> 3800+ (2:1 MCLK:FCLK) |
-  * With more DIMMs and/or dual rank DIMMs, the expected frequency can be lower.
-  * <sup>1</sup>3600+ is typically achieved on a 1 DIMM per channel (DPC)/2 DIMM slot motherboard and with a very good IMC.
-    * See [here](https://docs.google.com/spreadsheets/d/1dsu9K1Nt_7apHBdiy0MWVPcYjf6nOlr9CtkkfN78tSo/edit#gid=1814864213).
-  * <sup>1</sup>DDR4-3400 - DDR4-3533 is what most, if not all, Ryzen 2000 IMCs should be able to hit.
-    > On the tested samples, the distribution of the maximum achievable memory frequency was following:  
-    > DDR4-3400 – 12.5% of the samples   
-    > DDR4-3466 – 25.0% of the samples  
-    > DDR4-3533 – 62.5% of the samples  
-    [~ The Stilt](https://forums.anandtech.com/threads/ryzen-strictly-technical.2500572/page-72#post-39391302)
-  * 2 CCD Ryzen 3000 CPUs (3900X and 3950X) seem to prefer 4 single rank sticks over 2 dual rank sticks.
-    > For 2 CCD SKUs, 2 DPC SR configuration seems to be the way to go.
-    > Both the 3600 and 3700X did 1800MHz UCLK on 1 DPC DR config, but most likely due to the discrepancy of the two CCDs in 3900X, it barely does 1733MHz on those DIMMs.
-    > Meanwhile with 2 DPC SR config there is no issue in reaching 1866MHz FCLK/UCLK.  
-[~ The Stilt](https://www.overclock.net/forum/10-amd-cpus/1728758-strictly-technical-matisse-not-really-26.html#post28052342)
-* tRCD is split into tRCDRD (read) and tRCDWR (write). Usually, tRCDWR can go lower than tRCDRD, but I haven't noticed any performance improvements from lowering tRCDWR. It's best to keep them the same.
-* Geardown mode (GDM) is automatically enabled above DDR4-2666, which forces even tCL, even tCWL, even tRTP, even tWR and CR 1T. If you want to run odd tCL, disable GDM. If you're unstable try running CR 2T, but that may negate the performance gain from dropping tCL, and may even be less stable than GDM enabled.
-  * For example, if you try to run DDR4-3000 CL15 with GDM enabled, CL will be rounded up to 16.
-  * In terms of performance: GDM disabled CR 1T > GDM enabled CR 1T > GDM disabled CR 2T.
-* On single CCD Ryzen 3000 CPUs (CPUs below 3900X), write bandwidth is halved.
-  > In memory bandwidth, we see something odd, the write speed of AMD's 3700X, and that's because of the CDD to IOD connection, where the writes are 16B/cycle on the 3700X, but it's double that on the 3900X. AMD said this let them conserve power, which accounts for part of the lower TDP AMD aimed for. AMD says applications rarely do pure writes, but it did hurt the 3700X's performance in one of our benchmarks on the next page.  
-  [~ TweakTown](https://www.tweaktown.com/reviews/9051/amd-ryzen-3900x-3700x-zen2-review/index3.html)
-* Expected memory latency range:
-
-  | Ryzen | Latency (ns) |
-  | :---: | :----------: |
-  | 1000 | 65 - 75 |
-  | 2000 | 60 - 70 |
-  | 3000 | 65 - 75 (1:1 MCLK:FCLK) <br/> 75+ (2:1 MCLK:FCLK) |
-* On Ryzen 3000 and 5000, high enough FCLK can overcome the penalties from desynchronising MCLK and FCLK, provided that you can lock your UCLK to MCLK.
-  
-  ![Chart](https://i.imgur.com/F9HpkO2.png) 
-  * (Credits: [Buildzoid](https://www.youtube.com/watch?v=10pYf9wqFFY))
-  
+    
 # Overclocking
 * **Disclaimer**: The silicon lottery will affect your overclocking potential so there may be some deviation from my suggestions.
 * **Warning**: Data corruption is possible when overclocking RAM. It's advised to run `sfc /scannow` every so often to ensure any corrupted system files are fixed.
@@ -378,14 +310,6 @@ The default value is fixed 1.100V and AMD recommends keeping it at that level. I
 
 ## Finding a Baseline
 1. On Intel, start off with 1.15V VCCSA and VCCIO.  
-   On AMD, start off with 1.10V SOC.
-   * SOC voltage might be named differently depending on the manufacturer.
-     * Asrock: CPU VDDCR_SOC Voltage. If you can't find that, you can use SOC Overclock VID hidden in the AMD CBS menu.
-       * [VID values](https://www.reddit.com/r/Amd/comments/842ehb/asrock_ab350_pro4_guide_bios_overclocking_raven/).
-     * Asus: VDDCR SOC.
-     * Gigabyte: (Dynamic) Vcore SOC.
-       * Note that dynamic Vcore SOC is an offset voltage. The base voltage can change automatically when increasing DRAM frequency. +0.100V at DDR4-3000 might result in 1.10V actual, but +0.100V at DDR4-3400 might result in 1.20v actual.
-     * MSI: CPU NB/SOC.
 2. Set DRAM voltage to 1.40V. If you're using ICs that roll over above 1.35V, set 1.35V.
    * "Roll over" means that the IC becomes more unstable as you increase the voltage, sometimes to the point of not even POSTing.
    * ICs that are known to roll over above 1.35V include but is not limited to: 8Gb Samsung C-die, older Micron/SpecTek ICs (before 8Gb Rev. E).
@@ -399,7 +323,7 @@ The default value is fixed 1.100V and AMD recommends keeping it at that level. I
    RTLs should be no more than 2 apart and IOLs should be no more than 1 apart.  
    In my case, RTLs are 53 and 55 which are exactly 2 apart and IOLs are both 7.
    Note that having RTLs and IOLs within those ranges doesn't mean you're stable.
-   * If you're on Ryzen 3000 or 5000, make sure that the Infinity Fabric frequency (FCLK) is set to half your effective DRAM frequency.
+   
 5. Run a memory tester of your choice.  
    * Windows will use ~2000MB so make sure to account for that when entering the amount of RAM to test, if the test has manual input. I have 16GB of RAM and usually test 14000MB.
    * Minimum recommended coverage/runtime:
@@ -424,9 +348,6 @@ The default value is fixed 1.100V and AMD recommends keeping it at that level. I
    * Set command rate (CR) to 2T if it isn't already.
    * Set tCCDL to 8. Asus UEFIs don't expose this timing.
    
-   Ryzen 3000:
-   * Desynchronising MCLK and FCLK can incur a massive latency penalty, so you're better off tightening timings to keep your MCLK:FCLK 1:1. See [AMD - AM4](#amd---am4) for more information.
-   * Otherwise, set FCLK to whatever is stable (1600MHz if you're unsure).
 2. Loosen primary timings to 18-22-22-42 and set tCWL to 18.
 3. Increase DRAM voltage to 1.45v if it is safe for your IC.
 5. Follow steps 4-7 from [Finding a Baseline](#finding-a-baseline).
@@ -498,22 +419,14 @@ The default value is fixed 1.100V and AMD recommends keeping it at that level. I
    | tWTRS tWTRL | 4 12 | 4 10 | 4 8 |
    | tRTP | 12 | 10 | 8 |
    | tCWL<sup>1</sup> | tCL | tCL - 1 | tCL - 2 |
+   * tCWL is also known as tWL (ASUS)
    * On Intel, tWTRS/L should be left on auto and controlled with tWRRD_dg/sg respectively. Dropping tWRRD_dg by 1 will drop tWTRS by 1. Likewise with tWRRD_sg. Once they're as low as you can go, manually set tWTRS/L.
    * On Intel, changing tCWL will affect tWRRD_dg/sg and thus tWTR_S/L. If you lower tCWL by 1 you need to lower tWRRD_dg/sg by 1 to keep the same tWTR values. Note that this might also affect tWR per the relationship described earlier.
    * <sup>1</sup>Some motherboards don't play nice with odd tCWL. For example, I'm stable at 4000 15-19-19 tCWL 14, yet tCWL 15 doesn't even POST. Another user has had similar experiences. Some motherboards may seem fine but have issues with it at higher frequencies (Asus). Manually setting tCWL equal to tCL if tCL is even or one below if tCL is uneven should alleviate this (eg. if tCL = 18 try tCWL = 18 or 16, if tCL = 17 try tCWL = 16).
    * The extreme preset is not the minimum floor in this case. tRTP can go as low as 5 (6 with Gear Down Mode on), while tWTRS/L can go as low as 1/6. Some boards are fine doing tCWL as low as tCL - 6. Keep in mind that this *will* increase the load on your memory controller.
    * On AMD, tCWL can often be set to tCL - 2 but is known to require higher tWRRD.
    
-4. Now for the tertiaries:
-    * If you're on AMD, refer to [this post](https://redd.it/ahs5a2).  
-      My suggestion:
-  
-       | Timing | Safe | Tight | Extreme |
-       | ------ | ---- | ----- | ------- |
-       | tRDRDSCL tWRWRSCL | 4 4 | 3 3 | 2 2 |
-     
-        * A lot of ICs are known to have issues with low SCLs. Values such as 2 are extremely difficult for all but ICs such as Samsung 8Gb B-Die. These values are not necessarily linked, and values such as 5 are acceptable. Mixing and matching is possible, and more often than not tRDRDSCL will be the one that needs to be run 1 or even 2 values higher. Values above 5 greatly hurt bandwidth and so their use is not advised.
-     
+4. Now for the tertiaries:        
     * If you're on Intel, tune the tertiaries one group at a time.  
       My suggestions:
       
@@ -546,7 +459,6 @@ The default value is fixed 1.100V and AMD recommends keeping it at that level. I
      * READ to PRE = tRTP
      * Hence, tRAS = tRCD + tRTP.
 
-
 8. Set `tRC = tRP + tRAS`. Increase if unstable.
    * tRC is only available on AMD and some Intel UEFIs.
    * On Intel UEFIs, tRC does seem to be affected by tRP and tRAS, even if it is hidden.
@@ -564,21 +476,6 @@ The default value is fixed 1.100V and AMD recommends keeping it at that level. I
    * Keep in mind that running max tREFI can corrupt files so tread with caution.
 
 10. Finally onto command rate.
-
-    AMD:
-    * Getting GDM disabled and CR 1 stable can be pretty difficult but if you've come this far down the rabbit hole it's worth a shot.
-    * If you can get GDM disabled and CR 1 stable without touching anything then you can skip this section.
-    * CR 1 becomes significantly harder to run as the frequency increases. Oftentimes, running CR 2 can help with achieving higher frequencies.
-    * On AMD, Gear Down Mode will override Command Rate. For this reason, disabling Gear Down Mode in order to set CR 2 may be beneficial to overall stability.
-    
-    1. One possibility is to set the drive strengths to 60-20-20-24 and setup times to 63-63-63.
-       * Drive strengths are ClkDrvStr, AddrCmdDrvStr, CsOdtDrvStr and CkeDrvStr.
-       * Setup times are AddrCmdSetup, CsOdtSetup and CkeSetup.
-    2. If you can't POST, adjust the setup times until you can (you should adjust them all together).
-    3. Run a memory test.
-    4. Adjust setup times then drive strengths if unstable.
-    * [My stable GDM off CR 1 settings](https://i.imgur.com/z547RLa.jpg)
-    5. Oftentimes, a drive strength above 24 ohms may hurt stability. Furthermore, running non-zero setup times is rarely needed, however may aid in the stabilization of CR 1.
    
     Intel:
     * If below DDR4-4400, try setting CR to 1T. If that doesn't work, leave CR on 2T.
@@ -608,18 +505,6 @@ The default value is fixed 1.100V and AMD recommends keeping it at that level. I
 * On some motherboards, enabling XMP can allow for better overclocking.
   * Thanks to Bored and Muren for finding and verifying this on their Asrock motherboards.
 
-### AMD
-* Try playing around with ProcODT if you can't boot. This setting determines the processor on-die termination impedance. According to [Micron](https://www.micron.com/support/~/media/D546161C2C6140BCB0BAEE954AA53433.pdf), higher settings of ProcODT can lead to more stable RAM, but trade off potentially needing higher voltages. On Ryzen 1000 and 2000, you should try values between 40Ω and 68.6Ω due to the considerably weaker memory controller. 
-On Ryzen 3000 and 5000, [1usmus](https://www.overclock.net/forum/13-amd-general/1640919-new-dram-calculator-ryzena-1-5-1-overclocking-dram-am4-membench-0-7-dram-bench-480.html#post28049664) suggests 28Ω - 40Ω. Lower settings may be harder to run but potentially helps with voltage requirements. Higher values may aid with stability, though according to [Micron](https://media-www.micron.com/-/media/client/global/documents/products/technical-note/dram/tn4040_ddr4_point_to_point_design_guide.pdf?la=en&rev=d58bc222192d411aae066b2577a12677), values of ODT above 60Ω are only suitable for extremely weak memory controllers and lower power solutions.
-This seems to line up with [The Stilt's](https://www.overclock.net/forum/10-amd-cpus/1728758-strictly-technical-matisse-not-really-26.html) settings.
-  > Phy at AGESA defaults, except ProcODT of 40.0Ohm, which is an ASUS auto-rule for Optimem III.
-* Lower SOC voltage and/or VDDG IOD may help with stability.
-* On Ryzen 3000 and 5000, higher CLDO_VDDP can help with stability above DDR4-3600.
-  > Increasing cLDO_VDDP seems beneficial > 3600MHz MEMCLKs, as increasing it seems to improve the margins and hence help with potential training issues. Source: [The Stilt](https://www.overclock.net/forum/10-amd-cpus/1728758-strictly-technical-matisse-not-really-26.html).
- 
-  > This value is not to exceed 1.10V on Ryzen 3000 and 5000, and should always be restricted to at least 0.10V less than DRAM Voltage. Source: [AMD](https://community.amd.com/t5/blogs/community-update-4-let-s-talk-dram/ba-p/415902)
-* When pushing FCLK around 1800MHz intermittent RAM training errors may be alleviated or completely eliminated by increasing VDDG CCD.
-
 # Useful Links
 ## Benchmarks
 * [Impact of RAM on Intel's Skylake desktop architecture by KingFaris](https://kingfaris.co.uk/ram)
@@ -627,8 +512,7 @@ This seems to line up with [The Stilt's](https://www.overclock.net/forum/10-amd-
 ## Information
 * [r/overclocking Wiki - DDR4](https://www.reddit.com/r/overclocking/wiki/ram/ddr4)
 * [Demystifying Memory Overclocking on Ryzen: OC Guidelines and Explaining Subtimings, Resistances, Voltages, and More! by varexos717](https://redd.it/ahs5a2)
-* [HardwareLUXX Ryzen RAM OC Thread](https://www.hardwareluxx.de/community/f13/ryzen-ram-oc-thread-moegliche-limitierungen-1216557.html)
-* [Ryzen 3000 Memory / Fabric (X370/X470/X570) by elmor](https://www.overclock.net/forum/13-amd-general/1728878-ryzen-3000-memory-fabric-x370-x470-x570.html)
+* [HardwareLUXX RAM OC Thread](https://www.hardwareluxx.de/community/f13/ryzen-ram-oc-thread-moegliche-limitierungen-1216557.html)
 * [Intel Memory Overclocking Quick Reference by sdch](https://www.overclock.net/forum/27784556-post7836.html)
 * [The road to overclocking memory without increasing voltage by Raja@ASUS](https://rog.asus.com/forum/showthread.php?47670-Maximus-7-Gene-The-road-to-overclocking-memory-without-increasing-voltage)
 * [Advanced Skylake Overclocking: Tune DDR4 Memory RTL/IO on Maximus VIII with Alex@ro's Guide](https://hwbot.org/newsflash/3058_advanced_skylake_overclocking_tune_ddr4_memory_rtlio_on_maximus_viii_with_alexaros_guide)
